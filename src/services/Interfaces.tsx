@@ -85,4 +85,8 @@ export interface ITradingData {
     setWatchList: Function;
     userData: IUserData;
     setUserData: Function;
+    currentStock: string;
+    setCurrentStock: Function;
+    transactions: ITransaction[];
+    setTransactions: Function;
 }
