@@ -1,15 +1,17 @@
+import { TemplateService } from "ag-grid-community";
 import { useEffect, useState } from "react"
 import { removeWatchItem } from "../repository/RemoveWatchItem";
+import { ModalModesEnum } from "../services/Enums";
 import { ISymbolPrice, ITradingData, IWatchItem } from "../services/Interfaces";
 import stockUpdateService from '../services/LiveDataService'
 
-export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingData}) => {
+export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingData, showModal:Function}) => {
     const [price, setPrice] = useState(0);
     const updatePrice = (newStockPrice: ISymbolPrice) =>{
         setPrice(newStockPrice.price);
     }
 
-    const onClickHandler=(symbol:string)=>{};
+    const onClickHandler=(symbol:string)=>{props.tradingData.setCurrentStock(symbol)};
     const onItemRemovedFromWatchListEvent = (symbol: string) => {
         props.tradingData.setWatchList(props.tradingData.watchList.filter((stock) => stock.symbol !== symbol))
     };
@@ -37,10 +39,10 @@ export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingD
             <div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>
             <div className="stock-list__grid-cell"></div>
             <div className="stock-list__grid-cell">
-                <a><span className="btn-transaction btn-transaction--buy">buy</span></a>
+                <a><span className="btn-transaction btn-transaction--buy" onClick={()=>props.showModal(ModalModesEnum.BUY)} >buy</span></a>
             </div>
             <div className="stock-list__grid-cell">
-                <a><span className="btn-transaction btn-transaction--sell">sell</span></a>
+                <a><span className="btn-transaction btn-transaction--sell" onClick={()=>props.showModal(ModalModesEnum.SELL)}>sell</span></a>
             </div>
             <div className="stock-list__grid-cell">{holdings}</div>
         </div>

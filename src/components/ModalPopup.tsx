@@ -1,43 +1,35 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import { ModalModesEnum } from '../services/Enums'
 import { StockDropDown } from './StockDropDown';
 import {addWatchItem} from '../repository/AddWatchItem'
-import { IAPIResult, IWatchItem } from '../services/Interfaces';
+import { IAPIResult, ITradingData, IUserData, IWatchItem } from '../services/Interfaces';
+import { addBuyTransaction } from '../repository/AddBuyTransaction'
+import { addSellTransaction } from '../repository/AddSellTransaction'
+import { getUserData } from '../repository/GetUserData';
 
 export const ModalPopup = (props: {
     isModalVisible: boolean;
     setIsModalVisible: Function;
     mode: ModalModesEnum;
     // children: ReactNode;
-    watchList:IWatchItem[];
-    setWatchList: Function;
+    tradingData: ITradingData;
 }) => {
-
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [selectedWatchItem, setSelectedWatchItem] = useState();
+    const [selected, setSelected] = useState('');
     const classes: string = `modal ${props.isModalVisible ? 'visible' : ''}`;
 
     let modalContent = null;
-    const [popupMode, setPopupMode] = useState<ModalModesEnum>(ModalModesEnum.PICK);
-    const showBuyDialog = ((defaultStock: string) => {
-        setPopupMode(ModalModesEnum.BUY);
-    });
-    const showStockPicker = (() => {
-        setPopupMode(ModalModesEnum.PICK);
-    });
-    const showSellDialog = ((defaultStock: string) => {
-        setPopupMode(ModalModesEnum.SELL);
-    });
-
-    const [selected, setSelected] = useState('');
     const [apiResult, setAPIResult] = useState<IAPIResult>({
         success: false,
         data: ""
     });
 
+    const onAddTransaction = (data:IUserData)=>{
+        if (data) props.tradingData.setUserData(data);
+    }
+
     const updateStatus = (data:IAPIResult)=>{
         setAPIResult(data);
-        if (data.success && data.data.indexOf('added')>0) props.setWatchList([...props.watchList, {symbol:selected}])
+        if (data.success && data.data.indexOf('added')>0) props.tradingData.setWatchList([...props.tradingData.watchList, {symbol:selected}])
     }
 
     const addStockToWatchList = (symbol: string) => {
@@ -45,14 +37,15 @@ export const ModalPopup = (props: {
         addWatchItem( symbol , updateStatus);
     }
 
-    switch (popupMode) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    switch (props.mode) {
         case ModalModesEnum.BUY:
             modalContent = <div>
                 <h2 className="modal__h2">Buy stock</h2>
                 <div>
-                    {/* <StockDropDown defaultSelected={props.symbol} setSelected={setSelected} />
-                <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                <button className="modal__btn" onClick={() => addBuyTransaction(selected)}>Buy</button> */}
+                    <div>Amount of {props.tradingData.currentStock} stocks to buy:</div> 
+                    <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
+                    <button className="modal__btn" onClick={() => addBuyTransaction(props.tradingData.currentStock , Number.parseInt(inputRef.current?.value?inputRef.current.value:''), onAddTransaction)}>Buy</button>
                 </div>
             </div>
             break;
@@ -60,13 +53,13 @@ export const ModalPopup = (props: {
             modalContent = <div>
                 <h2 className="modal__h2">Sell stock</h2>
                 <div>
-                    {/* <StockDropDown defaultSelected={props.symbol} setSelected={setSelected}/>
-                <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                <button className="modal__btn" onClick={() => addSellTransaction(selected)}>Sell</button> */}
+                    <div>Amount of {props.tradingData.currentStock} stocks to sell:</div> 
+                    <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
+                    <button className="modal__btn" onClick={() => addSellTransaction(props.tradingData.currentStock , Number.parseInt(inputRef.current?.value?inputRef.current.value:''), onAddTransaction)}>Sell</button>
                 </div>
             </div>
             break;
-        default:
+        case ModalModesEnum.PICK:
             modalContent =         
             <div>
                 <h2 className="modal__h2">Select a new stock to follow</h2>

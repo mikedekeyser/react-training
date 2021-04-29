@@ -15,7 +15,7 @@ export const HomePage = ((props:{tradingData:ITradingData})=> {
     
     return (
         <div>
-            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} watchList={props.tradingData.watchList} setWatchList={props.tradingData.setWatchList}/>            
+            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData}/>            
             <WatchList tradingData={props.tradingData} setWatchList={props.tradingData.setWatchList} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>  
             {/* <button onClick = {()=>{ModalPo}}> show popup </button> */}
             {/* <StockGraph /> */}

@@ -9,7 +9,7 @@ import {
 	Link
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { ITradingData, IUserData, IWatchItem } from './services/Interfaces';
+import { ITradingData, ITransaction, IUserData, IWatchItem } from './services/Interfaces';
 import {getUserData} from './repository/GetUserData'
 import { getWatchList } from './repository/GetWatchList';
 
@@ -19,11 +19,17 @@ export const currentUser = 'michael.de.keyser';
 export default function App() {
     const [watchList, setWatchList] = useState<IWatchItem[]>();
     const [userData, setUserData] = useState<IUserData>();
+	const [currentStock, setCurrentStock] = useState('');
+	const [transactions, setTransactions] = useState<ITransaction[]>();
 	const tradingData = {
 		watchList: watchList,
 		setWatchList: setWatchList,
 		userData: userData,
 		setUserData: setUserData,
+		currentStock: currentStock,
+		setCurrentStock: setCurrentStock,
+		transactions: transactions,
+		setTransactions: setTransactions,
 	} as ITradingData;
 	
 	useEffect(()=>{
