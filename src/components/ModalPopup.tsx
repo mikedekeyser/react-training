@@ -37,7 +37,7 @@ export const ModalPopup = (props: {
 
     const updateStatus = (data:IAPIResult)=>{
         setAPIResult(data);
-        if (data.success) props.setWatchList([...props.watchList, {symbol:selected}])
+        if (data.success && data.data.indexOf('added')>0) props.setWatchList([...props.watchList, {symbol:selected}])
     }
 
     const addStockToWatchList = (symbol: string) => {

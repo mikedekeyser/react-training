@@ -8,8 +8,10 @@ import {
 	Route,
 	Link
 } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ITradingData, IUserData, IWatchItem } from './services/Interfaces';
+import {getUserData} from './services/DataRepository/GetUserData'
+import { getWatchList } from './services/DataRepository/GetWatchList';
 
 export const mockAPIServerURL = 'https://demomocktradingserver.azurewebsites.net';
 export const currentUser = 'michael.de.keyser';
@@ -24,6 +26,11 @@ export default function App() {
 		setUserData: setUserData,
 	} as ITradingData;
 	
+	useEffect(()=>{
+		getWatchList(setWatchList);
+		getUserData(setUserData);
+	},[]);
+
 	return (
 		<div>
 			<Router>
