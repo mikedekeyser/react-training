@@ -1,5 +1,5 @@
 import nes from "@hapi/nes/lib/client";
-import { IStockPrice } from "./Interfaces";
+import { IStockPrice, ISymbolPrice } from "./Interfaces";
 
 class StockUpdateService {
   private nesClient!: nes.Client;
@@ -30,7 +30,7 @@ class StockUpdateService {
   }
 }
 
-export type UpdateCallback = (update: IStockPrice) => void;
+export type UpdateCallback = (update: ISymbolPrice) => void;
 
 const stockUpdateService = new StockUpdateService();
 

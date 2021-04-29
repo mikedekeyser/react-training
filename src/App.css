@@ -169,6 +169,12 @@ a:active {
     text-align: center;
 }
 
+.currency {
+  text-align: right;
+  float: inline-end;
+}
+
+
 .main-header {
     border-bottom: 1px solid #4472c4;
     margin-bottom: 20px;

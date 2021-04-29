@@ -1,5 +1,11 @@
-export interface IStockPrice {
+export interface ISymbolPrice {
     symbol: string;
+    price: number;
+    date: string;
+}
+
+export interface IStockPrice {
+    stock: string;
     price: number;
     date: string;
 }
@@ -7,15 +13,12 @@ export interface IStockPrice {
 export interface IStock {
     name: string;
     symbol: string;
-    lastTick: {
-        stock: string;
-        price: number
-        date: string;
-    }
+    lastTick: IStockPrice
 }
 
 export interface IWatchItem {
     symbol: string;
+    price: Number;
 }
 
 export interface IAPIResult {
