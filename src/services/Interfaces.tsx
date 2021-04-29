@@ -76,3 +76,10 @@ export interface IModalProps {
 	setIsModalVisible: Function;
 	modalClickHandler: Function;
 }
+
+export interface ITradingData {
+    watchList: IWatchItem[];
+    setWatchList: Function;
+    userData: IUserData;
+    setUserData: Function;
+}

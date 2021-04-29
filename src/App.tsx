@@ -8,11 +8,22 @@ import {
 	Route,
 	Link
 } from "react-router-dom";
+import { useState } from 'react';
+import { ITradingData, IUserData, IWatchItem } from './services/Interfaces';
 
 export const mockAPIServerURL = 'https://demomocktradingserver.azurewebsites.net';
 export const currentUser = 'michael.de.keyser';
 
 export default function App() {
+    const [watchList, setWatchList] = useState<IWatchItem[]>();
+    const [userData, setUserData] = useState<IUserData>();
+	const tradingData = {
+		watchList: watchList,
+		setWatchList: setWatchList,
+		userData: userData,
+		setUserData: setUserData,
+	} as ITradingData;
+	
 	return (
 		<div>
 			<Router>
@@ -40,7 +51,7 @@ export default function App() {
 							<DetailsPage />
 						</Route>
 						<Route path="/">
-							<HomePage />
+							<HomePage tradingData={tradingData}/>
 						</Route>
 					</Switch>
 				</div>

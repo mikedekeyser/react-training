@@ -1,7 +1,7 @@
 import { PropertyKeys } from 'ag-grid-community';
 import React, { useState } from 'react';
 import { ModalModesEnum } from '../services/Enums';
-import { IWatchItem } from '../services/Interfaces';
+import { ITradingData, IWatchItem } from '../services/Interfaces';
 import { ModalPopup } from './ModalPopup';
 // import { FollowedStockList } from './FollowedStockList';
 // import {StockGraph} from './StockGraph'
@@ -9,16 +9,14 @@ import { ModalPopup } from './ModalPopup';
 // import {IPostTransactionResult} from '../services/Interfaces'
 import {WatchList} from './WatchList'
 
-export const HomePage = (()=> {
+export const HomePage = ((props:{tradingData:ITradingData})=> {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [modalMode, setModalMode] = useState<ModalModesEnum>(ModalModesEnum.PICK);
-    const [watchList, setWatchList] = useState<IWatchItem[]>([]);
-
     
     return (
         <div>
-            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} watchList={watchList} setWatchList={setWatchList}/>            
-            <WatchList watchList={watchList} setWatchList={setWatchList} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>  
+            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} watchList={props.tradingData.watchList} setWatchList={props.tradingData.setWatchList}/>            
+            <WatchList watchList={props.tradingData.watchList} setWatchList={props.tradingData.setWatchList} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>  
             {/* <button onClick = {()=>{ModalPo}}> show popup </button> */}
             {/* <StockGraph /> */}
 
