@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { ModalModesEnum } from '../services/Enums'
 import { StockDropDown } from './StockDropDown';
-import {addWatchItem} from '../services/DataRepository/AddWatchItem'
+import {addWatchItem} from '../repository/AddWatchItem'
 import { IAPIResult, IWatchItem } from '../services/Interfaces';
 
 export const ModalPopup = (props: {

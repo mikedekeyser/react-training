@@ -10,8 +10,8 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { ITradingData, IUserData, IWatchItem } from './services/Interfaces';
-import {getUserData} from './services/DataRepository/GetUserData'
-import { getWatchList } from './services/DataRepository/GetWatchList';
+import {getUserData} from './repository/GetUserData'
+import { getWatchList } from './repository/GetWatchList';
 
 export const mockAPIServerURL = 'https://demomocktradingserver.azurewebsites.net';
 export const currentUser = 'michael.de.keyser';

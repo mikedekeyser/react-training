@@ -1,4 +1,4 @@
-import { callAPI } from "../CallAPI";
+import { callAPI } from "../services/CallAPI";
 
 export const addWatchItem = (symbol:string, callback:Function)=>{
     callAPI('/userdata/watchlist', callback, {

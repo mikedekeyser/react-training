@@ -1,5 +1,5 @@
-import { callAPI } from "../CallAPI";
-import { IAPIResult } from "../Interfaces";
+import { callAPI } from "../services/CallAPI";
+import { IAPIResult } from "../services/Interfaces";
 
 export const removeWatchItem = ((symbol:string, callback:Function)=>{
     callAPI('/userdata/watchlist', (data: IAPIResult) => {

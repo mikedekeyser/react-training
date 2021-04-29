@@ -1,6 +1,6 @@
 import { ModalModesEnum } from '../services/Enums';
 import { ITradingData, IWatchItem } from '../services/Interfaces'
-import { removeWatchItem} from '../services/DataRepository/RemoveWatchItem'
+import { removeWatchItem} from '../repository/RemoveWatchItem'
 
 export const WatchList = ((props:{tradingData:ITradingData, setWatchList:Function, setIsModalVisible:Function, setModalMode:Function}) => {
     const showPickDialog = (() => {
