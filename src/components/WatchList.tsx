@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import { ModalModesEnum } from '../services/Enums';
-import { getWatchList } from '../services/DataRepository/GetWatchList'
 import { IWatchItem } from '../services/Interfaces'
 import { removeWatchItem} from '../services/DataRepository/RemoveWatchItem'
 
@@ -9,10 +7,6 @@ export const WatchList = ((props:{watchList:IWatchItem[], setWatchList:Function,
         props.setModalMode(ModalModesEnum.PICK);
         props.setIsModalVisible(true)
     });
-
-    useEffect(() => {
-        getWatchList(props.setWatchList);
-    }, []);
 
     const onItemRemovedFromWatchListEvent = (symbol: string) => {
         props.setWatchList(props.watchList.filter((stock) => stock.symbol !== symbol))
