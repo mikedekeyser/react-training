@@ -7,12 +7,17 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 import { StockGraph } from './StockGraph'
 import { getTransactions } from '../repository/GetTransactions';
+import { AgGrid } from './AgGrid';
+import { AgGridModesEnum, ModalModesEnum } from '../services/Enums';
+import { ModalPopup } from './ModalPopup';
 // import { NewStockChart } from './NewStockChart'
 // import { appContext } from '../App';
 // import { IFollowedStock } from '../services/Interfaces';
 
 export const DetailsPage = (props: { tradingData: ITradingData }) => {
     // const appData = useContext(appContext);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalMode, setModalMode] = useState<ModalModesEnum>(ModalModesEnum.PICK);
 
     useEffect(() => {
         getTransactions(props.tradingData.setTransactions);
@@ -52,12 +57,14 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
 
     return (
         <div>
+            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData} />
             <table>
                 <tr>
                     <StockGraph tradingData={props.tradingData} />
                 </tr>
                 <tr>
-                    <div className="ag-theme-alpine" style={{ height: 400, width: 1600 }}>
+                    <AgGrid tradingData={props.tradingData} mode={AgGridModesEnum.DETAILS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>
+                    {/* <div className="ag-theme-alpine" style={{ height: 400, width: 1600 }}>
                         <AgGridReact rowData={rowData} >
                             <AgGridColumn field="date"></AgGridColumn>
                             <AgGridColumn field="stock"></AgGridColumn>
@@ -66,7 +73,7 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
                             <AgGridColumn field="price" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
                             <AgGridColumn field="total" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
                         </AgGridReact>
-                    </div>
+                    </div> */}
                 </tr>
             </table>
         </div>

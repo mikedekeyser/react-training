@@ -89,4 +89,6 @@ export interface ITradingData {
     setCurrentStock: Function;
     transactions: ITransaction[];
     setTransactions: Function;
+    stocks: IStock[];
+    setStocks: Function;
 }

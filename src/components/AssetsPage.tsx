@@ -15,8 +15,9 @@ import { ITradingData } from '../services/Interfaces';
 import { ButtonCell } from './ButtonCell';
 import { getUserData } from '../repository/GetUserData';
 import { ModalPopup } from './ModalPopup';
-import { ModalModesEnum } from '../services/Enums';
+import { AgGridModesEnum, ModalModesEnum } from '../services/Enums';
 import { CellClickedEvent, RowSelectedEvent } from 'ag-grid-community';
+import { AgGrid } from './AgGrid';
 
 export const AssetsPage = (props: { tradingData: ITradingData }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -45,7 +46,7 @@ export const AssetsPage = (props: { tradingData: ITradingData }) => {
     //const [rowData, setRowData] = useState<IRowData[]>();
     const rowData = props.tradingData.userData?.allocations.map(allocation => {
         const currentPrice = props.tradingData?.stocks?.find((s) => s.symbol === allocation.symbol)?.lastTick.price;
-        const row = { 'amount': allocation.amount, 'currentPrice': currentPrice, 'sell': 0, 'symbol': allocation.symbol, 'total': allocation.amount * (currentPrice ? currentPrice : 0) };
+        const row = { 'amount': allocation.amount, 'currentPrice': currentPrice, 'sell': 'sell', 'symbol': allocation.symbol, 'total': allocation.amount * (currentPrice ? currentPrice : 0) };
         return row;
     });
 
@@ -81,7 +82,8 @@ export const AssetsPage = (props: { tradingData: ITradingData }) => {
                 <AgGridColumn field="model"></AgGridColumn>
                 <AgGridColumn field="price"></AgGridColumn>
             </AgGridReact> */}
-                <AgGridReact rowData={rowData} onCellClicked={onCellClicked} onRowSelected={onRowSelect}>
+            <AgGrid tradingData={props.tradingData} mode={AgGridModesEnum.ASSETS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>
+                {/* <AgGridReact rowData={rowData} onCellClicked={onCellClicked} onRowSelected={onRowSelect}>
                     <AgGridColumn field="symbol"></AgGridColumn>
                     <AgGridColumn field="amount"></AgGridColumn>
                     <AgGridColumn field="currentPrice" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
@@ -90,7 +92,7 @@ export const AssetsPage = (props: { tradingData: ITradingData }) => {
                     // cellRenderer="cellRenderer"
                     // cellRendererParams={cellRendererParams}
                     ></AgGridColumn>
-                </AgGridReact>
+                </AgGridReact> */}
             </div>
 
         </div>
