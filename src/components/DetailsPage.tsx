@@ -8,8 +8,10 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { StockGraph } from './StockGraph'
 import { getTransactions } from '../repository/GetTransactions';
 import { AgGrid } from './AgGrid';
-import { AgGridModesEnum, ModalModesEnum } from '../services/Enums';
+import { AgGridModesEnum, GraphModesEnum, ModalModesEnum } from '../services/Enums';
 import { ModalPopup } from './ModalPopup';
+import {Graph} from './Graph'
+
 // import { NewStockChart } from './NewStockChart'
 // import { appContext } from '../App';
 // import { IFollowedStock } from '../services/Interfaces';
@@ -60,7 +62,8 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
             <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData} />
             <table>
                 <tr>
-                    <StockGraph tradingData={props.tradingData} />
+                    {/* <StockGraph tradingData={props.tradingData} /> */}
+                    <Graph tradingData={props.tradingData} mode={GraphModesEnum.WATCH} currentStock={props.tradingData.currentStock} />
                 </tr>
                 <tr>
                     <AgGrid tradingData={props.tradingData} mode={AgGridModesEnum.DETAILS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>

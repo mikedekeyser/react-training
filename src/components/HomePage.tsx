@@ -1,6 +1,6 @@
 import { PropertyKeys } from 'ag-grid-community';
 import React, { useState } from 'react';
-import { AgGridModesEnum, ModalModesEnum } from '../services/Enums';
+import { AgGridModesEnum, GraphModesEnum, ModalModesEnum } from '../services/Enums';
 import { ITradingData, IWatchItem } from '../services/Interfaces';
 import { ModalPopup } from './ModalPopup';
 // import { FollowedStockList } from './FollowedStockList';
@@ -11,6 +11,7 @@ import { WatchList } from './WatchList'
 import { StockGraph } from './StockGraph'
 import { TransactionGrid } from './TransactionGrid'
 import { AgGrid } from './AgGrid';
+import { Graph } from './Graph';
 
 export const HomePage = ((props: { tradingData: ITradingData }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,7 +30,8 @@ export const HomePage = ((props: { tradingData: ITradingData }) => {
 
                     </td>
                     <td>
-                        <StockGraph tradingData={props.tradingData} />
+                        <Graph tradingData={props.tradingData} mode={GraphModesEnum.WATCH} currentStock={props.tradingData.currentStock}/>
+                        {/* <StockGraph tradingData={props.tradingData} /> */}
 
                     </td>
                 </tr>
