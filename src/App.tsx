@@ -25,6 +25,7 @@ export default function App() {
 	const [currentStock, setCurrentStock] = useState('');
 	const [transactions, setTransactions] = useState<ITransaction[]>();
 	const [stocks, setStocks] = useState<IStock[]>();
+	
 	const tradingData = {
 		watchList: watchList,
 		setWatchList: setWatchList,
