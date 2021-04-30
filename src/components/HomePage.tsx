@@ -9,6 +9,7 @@ import { ModalPopup } from './ModalPopup';
 // import {IPostTransactionResult} from '../services/Interfaces'
 import {WatchList} from './WatchList'
 import {StockGraph} from './StockGraph'
+import {TransactionGrid} from './TransactionGrid'
 
 export const HomePage = ((props:{tradingData:ITradingData})=> {
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -18,10 +19,8 @@ export const HomePage = ((props:{tradingData:ITradingData})=> {
         <div>
             <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData}/>            
             <WatchList tradingData={props.tradingData} setWatchList={props.tradingData.setWatchList} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode}/>  
-            {/* <button onClick = {()=>{ModalPo}}> show popup </button> */}
             <StockGraph tradingData={props.tradingData}/>
-
-            {/* <TransactionGrid /> */}
+            <TransactionGrid tradingData={props.tradingData}/>
         </div>
     );
 })
