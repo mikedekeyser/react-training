@@ -32,13 +32,12 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
             // summarize total assets or call userdata including current worth
             transactionData = props.tradingData?.userData?.allocations?.map(allocation => {
                 const currentPrice = props.tradingData?.stocks?.find((s)=>s.symbol===allocation?.symbol)?.lastTick.price;
-                const row = {
+                return {
                      'stock': allocation?.symbol
                     , 'amount': allocation?.amount
                     , 'currentPrice': currentPrice
                     , 'currentWorth': allocation?.amount * (currentPrice?currentPrice:0)
                 };
-                return row;
             });
         
             columns = (
@@ -53,7 +52,7 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
         case AgGridModesEnum.DETAILS:
             // display transactions of specific stock minus current values (shown on graph)
             transactionData = props.tradingData?.transactions?.filter((t)=>t.symbol===props.tradingData.currentStock).map(transaction => {
-                const row = {
+                return {
                     'date': transaction.date
                     , 'stock': transaction.symbol
                     , 'amount': transaction.amount
@@ -61,7 +60,6 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
                     , 'purchasePrice': transaction.tickPrice
                     , 'cost': transaction.amount * transaction.tickPrice
                 };
-                return row;
             });
             columns = (
                 <div>
@@ -77,7 +75,7 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
         case AgGridModesEnum.TRANSACTIONS:
             // display all transactions minus current values
             transactionData = props.tradingData?.transactions?.map(transaction => {
-                const row = {
+                return {
                     'date': transaction.date
                     , 'stock': transaction.symbol
                     , 'amount': transaction.amount
@@ -85,7 +83,6 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
                     , 'purchasePrice': transaction.tickPrice
                     , 'cost': transaction.amount * transaction.tickPrice
                 };
-                return row;
             });
             columns = (
                 <div>

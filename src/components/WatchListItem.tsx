@@ -5,7 +5,7 @@ import { ModalModesEnum } from "../services/Enums";
 import { ISymbolPrice, ITradingData, IWatchItem } from "../services/Interfaces";
 import stockUpdateService from '../services/LiveDataService'
 
-export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingData, showModal:Function}) => {
+export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingData, showModal:Function, isRemoveEnabled:boolean}) => {
     const [price, setPrice] = useState(0);
     const updatePrice = (newStockPrice: ISymbolPrice) =>{
         setPrice(newStockPrice.price);
@@ -29,12 +29,15 @@ export const WatchListItem = (props:{watchItem:IWatchItem, tradingData:ITradingD
     const priceFormatter = (value: number | bigint ) => {
         return value ? formatter.format(value) : '';
     };
+    const removeButton = props.isRemoveEnabled?(
+        <div className="stock-list__grid-cell">
+            <a><span className="stock-list__btn stock-list__btn--remove" onClick={() => removeWatchItem(props.watchItem.symbol, onItemRemovedFromWatchListEvent)} >&ndash;</span></a>
+        </div>
+    ):<div></div>;
 
     return (
         <div className="stock-list__grid-row" onClick={() => onClickHandler(props.watchItem.symbol)}>
-            <div className="stock-list__grid-cell">
-                <a><span className="stock-list__btn stock-list__btn--remove" onClick={() => removeWatchItem(props.watchItem.symbol, onItemRemovedFromWatchListEvent)} >&ndash;</span></a>
-            </div>
+            {removeButton}
             <div className="stock-list__grid-cell">{props.watchItem.symbol}</div>
             <div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>
             <div className="stock-list__grid-cell"></div>

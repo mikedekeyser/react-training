@@ -18,7 +18,6 @@ export interface IStock {
 
 export interface IWatchItem {
     symbol: string;
-    price: Number;
 }
 
 export interface IAPIResult {

@@ -5,12 +5,12 @@ import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-import { StockGraph } from './StockGraph'
 import { getTransactions } from '../repository/GetTransactions';
 import { AgGrid } from './AgGrid';
 import { AgGridModesEnum, GraphModesEnum, ModalModesEnum } from '../services/Enums';
 import { ModalPopup } from './ModalPopup';
 import {Graph} from './Graph'
+import { WatchListItem } from './WatchListItem';
 
 // import { NewStockChart } from './NewStockChart'
 // import { appContext } from '../App';
@@ -20,6 +20,10 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
     // const appData = useContext(appContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState<ModalModesEnum>(ModalModesEnum.PICK);
+    const showModal = ((mode:ModalModesEnum) => {
+        setModalMode(mode);
+        setIsModalVisible(true)
+    });
 
     useEffect(() => {
         getTransactions(props.tradingData.setTransactions);
@@ -40,7 +44,7 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
         //     const foundStock = props.tradingData.watchList.find(x => x.symbol === transaction.symbol) as IWatchItem;
         //     if (foundStock) currentPrice = foundStock.price;
         // }
-        const currentPrice = props.tradingData?.watchList?.find(x => x.symbol === transaction.symbol)?.price;
+        const currentPrice = props.tradingData?.stocks?.find(x => x.symbol === transaction.symbol)?.lastTick.price;
         const row = {
             'date': transaction.date
             , 'stock': transaction.symbol
@@ -60,6 +64,7 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
     return (
         <div>
             <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData} />
+            <WatchListItem watchItem={{symbol:props.tradingData.currentStock}} tradingData={props.tradingData} showModal={showModal} isRemoveEnabled={false}/>
             <table>
                 <tr>
                     {/* <StockGraph tradingData={props.tradingData} /> */}

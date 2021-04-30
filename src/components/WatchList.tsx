@@ -15,7 +15,7 @@ export const WatchList = ((props: { tradingData: ITradingData, setWatchList: Fun
                     onClick={() => showModal(ModalModesEnum.PICK)}>+</span></a></h2>
                 <div className="stock-list__grid" >
                     {props?.tradingData?.watchList?.map((watchItem) =>
-                        <WatchListItem watchItem={watchItem} tradingData={props.tradingData} showModal={showModal}/>
+                        <WatchListItem watchItem={watchItem} tradingData={props.tradingData} showModal={showModal} isRemoveEnabled={true}/>
                     )}
                 </div>
             </section>

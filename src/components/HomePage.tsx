@@ -8,8 +8,6 @@ import { ModalPopup } from './ModalPopup';
 // import {TransactionGrid} from './TransactionGrid'
 // import {IPostTransactionResult} from '../services/Interfaces'
 import { WatchList } from './WatchList'
-import { StockGraph } from './StockGraph'
-import { TransactionGrid } from './TransactionGrid'
 import { AgGrid } from './AgGrid';
 import { Graph } from './Graph';
 
