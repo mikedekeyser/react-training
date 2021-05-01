@@ -1,3 +1,3 @@
 export enum ModalModesEnum { PICK, BUY, SELL };
-export enum AgGridModesEnum { TRANSACTIONS, DETAILS, ASSETS};
+export enum GridModesEnum { TRANSACTIONS, DETAILS, ASSETS};
 export enum GraphModesEnum { WATCH, DETAILS};

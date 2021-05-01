@@ -221,7 +221,6 @@ a.menu__list-item--active {
 .stock-graph {
     float: left;
     margin: 0px 20px 20px;
-    width: calc(50% - 40px);
 }
 
 .stock-list__title {

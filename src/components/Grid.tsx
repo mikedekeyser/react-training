@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 
 import 'ag-grid-enterprise';
@@ -6,11 +6,11 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { getTransactions } from '../repository/GetTransactions';
 import { ITradingData } from '../services/Interfaces';
-import { AgGridModesEnum, ModalModesEnum } from '../services/Enums';
+import { GridModesEnum, ModalModesEnum } from '../services/Enums';
 import { RowDoubleClickedEvent, RowSelectedEvent } from 'ag-grid-community';
 import { getUserData } from '../repository/GetUserData';
 
-export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum, setIsModalVisible:Function, setModalMode:Function }) => {
+export const Grid = (props: { tradingData: ITradingData, mode: GridModesEnum, setIsModalVisible: Function, setModalMode: Function }) => {
     useEffect(() => {
         if (!props.tradingData.transactions)
             getTransactions(props.tradingData.setTransactions);
@@ -24,22 +24,27 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
     const priceFormatter = (params: { value: number | bigint }) => {
         return params.value ? formatter.format(params.value) : '';
     };
+    function dateFormatter(params: { data: { date: any; }; }) {
+        var dateAsString = params.data.date;
+        var dateParts = dateAsString.split('/');
+        return params.data ? `${dateParts[0]} - ${dateParts[1]} - ${dateParts[2]}` : '';
+    }
 
     let transactionData = [{}];
     let columns = null;
     switch (props.mode) {
-        case AgGridModesEnum.ASSETS:
+        case GridModesEnum.ASSETS:
             // summarize total assets or call userdata including current worth
             transactionData = props.tradingData?.userData?.allocations?.map(allocation => {
-                const currentPrice = props.tradingData?.stocks?.find((s)=>s.symbol===allocation?.symbol)?.lastTick.price;
+                const currentPrice = props.tradingData?.stocks?.find((s) => s.symbol === allocation?.symbol)?.lastTick.price;
                 return {
-                     'stock': allocation?.symbol
+                    'stock': allocation?.symbol
                     , 'amount': allocation?.amount
                     , 'currentPrice': currentPrice
-                    , 'currentWorth': allocation?.amount * (currentPrice?currentPrice:0)
+                    , 'currentWorth': allocation?.amount * (currentPrice ? currentPrice : 0)
                 };
             });
-        
+
             columns = (
                 <div>
                     <AgGridColumn field="stock"></AgGridColumn>
@@ -49,9 +54,9 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
                 </div>
             );
             break;
-        case AgGridModesEnum.DETAILS:
+        case GridModesEnum.DETAILS:
             // display transactions of specific stock minus current values (shown on graph)
-            transactionData = props.tradingData?.transactions?.filter((t)=>t.symbol===props.tradingData.currentStock).map(transaction => {
+            transactionData = props.tradingData?.transactions?.filter((t) => t.symbol === props.tradingData.currentStock).map(transaction => {
                 return {
                     'date': transaction.date
                     , 'stock': transaction.symbol
@@ -63,16 +68,16 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
             });
             columns = (
                 <div>
-                    <AgGridColumn field="date"></AgGridColumn>
+                    <AgGridColumn field="date" ></AgGridColumn>
                     <AgGridColumn field="stock"></AgGridColumn>
                     <AgGridColumn field="amount"></AgGridColumn>
                     <AgGridColumn field="direction"></AgGridColumn>
                     <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
                     <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
                 </div>
-            );  
+            );
             break;
-        case AgGridModesEnum.TRANSACTIONS:
+        case GridModesEnum.TRANSACTIONS:
             // display all transactions minus current values
             transactionData = props.tradingData?.transactions?.map(transaction => {
                 return {
@@ -86,14 +91,14 @@ export const AgGrid = (props: { tradingData: ITradingData, mode: AgGridModesEnum
             });
             columns = (
                 <div>
-                    <AgGridColumn field="date"></AgGridColumn>
+                    <AgGridColumn field="date" ></AgGridColumn>
                     <AgGridColumn field="stock"></AgGridColumn>
                     <AgGridColumn field="amount"></AgGridColumn>
                     <AgGridColumn field="direction"></AgGridColumn>
                     <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
                     <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
                 </div>
-            );        
+            );
 
             break;
         default:
