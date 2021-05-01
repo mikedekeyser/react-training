@@ -31,7 +31,7 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
             <WatchListItem watchItem={{ symbol: props.tradingData.currentStock }} tradingData={props.tradingData} showModal={showModal} isRemoveEnabled={false} />
             <table>
                 <tr>
-                    <Graph tradingData={props.tradingData} mode={GraphModesEnum.WATCH} currentStock={props.tradingData.currentStock} />
+                    <Graph tradingData={props.tradingData} mode={GraphModesEnum.DETAILS} currentStock={props.tradingData.currentStock} />
                 </tr>
                 <tr>
                     <Grid tradingData={props.tradingData} mode={GridModesEnum.DETAILS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode} />
