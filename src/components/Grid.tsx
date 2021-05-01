@@ -47,7 +47,7 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
             });
 
             renderedGrid = (
-                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1000 }}>
                     <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
                         <AgGridColumn field="stock"></AgGridColumn>
                         <AgGridColumn field="amount"></AgGridColumn>
@@ -70,7 +70,7 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
                 };
             });
             renderedGrid = (
-                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1300 }}>
                     <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
                         <AgGridColumn field="date" ></AgGridColumn>
                         <AgGridColumn field="stock"></AgGridColumn>
@@ -96,7 +96,7 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
                 };
             });
             renderedGrid = (
-                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1300 }}>
                     <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
                         <AgGridColumn field="date" ></AgGridColumn>
                         <AgGridColumn field="stock"></AgGridColumn>
