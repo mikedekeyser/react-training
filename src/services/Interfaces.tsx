@@ -1,3 +1,5 @@
+import { GraphPeriodEnum } from "./Enums";
+
 export interface ISymbolPrice {
     symbol: string;
     price: number;
@@ -79,7 +81,7 @@ export interface IModalProps {
 	modalClickHandler: Function;
 }
 
-export interface ITradingData {
+export interface IAppData {
     watchList: IWatchItem[];
     setWatchList: Function;
     userData: IUserData;
@@ -90,4 +92,6 @@ export interface ITradingData {
     setTransactions: Function;
     stocks: IStock[];
     setStocks: Function;
+    graphPeriod: GraphPeriodEnum;
+    setGraphPeriod: Function;
 }

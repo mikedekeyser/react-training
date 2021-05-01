@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react"
 import { removeWatchItem } from "../repository/RemoveWatchItem";
 import { ModalModesEnum } from "../services/Enums";
-import { ISymbolPrice, ITradingData, IWatchItem } from "../services/Interfaces";
+import { ISymbolPrice, IAppData, IWatchItem } from "../services/Interfaces";
 import stockUpdateService from '../services/LiveDataService'
 
-export const WatchListItem = (props: { watchItem: IWatchItem, tradingData: ITradingData, showModal: Function, isRemoveEnabled: boolean }) => {
+export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData, showModal: Function, isRemoveEnabled: boolean }) => {
     const [price, setPrice] = useState(0);
     const updatePrice = (newStockPrice: ISymbolPrice) => {
         setPrice(newStockPrice.price);
     }
 
-    const onClickHandler = (symbol: string) => { props.tradingData.setCurrentStock(symbol) };
+    const onClickHandler = (symbol: string) => { props.appData.setCurrentStock(symbol) };
     const onItemRemovedFromWatchListEvent = (symbol: string) => {
-        props.tradingData.setWatchList(props.tradingData.watchList.filter((stock) => stock.symbol !== symbol))
+        props.appData.setWatchList(props.appData.watchList.filter((stock) => stock.symbol !== symbol))
     };
 
-    const holdings = props?.tradingData?.userData?.allocations.find((x) => x.symbol === props.watchItem.symbol)?.amount;
+    const holdings = props?.appData?.userData?.allocations.find((x) => x.symbol === props.watchItem.symbol)?.amount;
 
     useEffect(() => {
         stockUpdateService.subscribe(props.watchItem.symbol, updatePrice);

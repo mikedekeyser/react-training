@@ -9,24 +9,25 @@ import {
 	Link
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { IStock, ITradingData, ITransaction, IUserData, IWatchItem } from './services/Interfaces';
-import {getUserData} from './repository/GetUserData'
+import { IStock, IAppData, ITransaction, IUserData, IWatchItem } from './services/Interfaces';
+import { getUserData } from './repository/GetUserData'
 import { getWatchList } from './repository/GetWatchList';
 import { PropertyKeys } from 'ag-grid-community';
 import { getStocks } from './repository/GetStocks';
-import { watch } from 'node:fs';
+import { GraphPeriodEnum } from './services/Enums';
 
 export const mockAPIServerURL = 'https://demomocktradingserver.azurewebsites.net';
 export const currentUser = 'michael.de.keyser';
 
 export default function App() {
-    const [watchList, setWatchList] = useState<IWatchItem[]>();
-    const [userData, setUserData] = useState<IUserData>();
+	const [watchList, setWatchList] = useState<IWatchItem[]>();
+	const [userData, setUserData] = useState<IUserData>();
 	const [currentStock, setCurrentStock] = useState('');
 	const [transactions, setTransactions] = useState<ITransaction[]>();
 	const [stocks, setStocks] = useState<IStock[]>();
-	
-	const tradingData = {
+	const [graphPeriod, setGraphPeriod] = useState<GraphPeriodEnum>(GraphPeriodEnum.DAILY);
+
+	const appData = {
 		watchList: watchList,
 		setWatchList: setWatchList,
 		userData: userData,
@@ -37,16 +38,18 @@ export default function App() {
 		setTransactions: setTransactions,
 		stocks: stocks,
 		setStocks: setStocks,
-	} as ITradingData;
-	
-	useEffect(()=>{
+		graphPeriod: graphPeriod,
+		setGraphPeriod: setGraphPeriod
+	} as IAppData;
+
+	useEffect(() => {
 		getWatchList(setWatchList);
 		getUserData(setUserData);
 		getStocks(setStocks);
-		if (watchList && watchList.length>0) 
-			setCurrentStock(watchList[0].symbol) 
+		if (watchList && watchList.length > 0)
+			setCurrentStock(watchList[0].symbol)
 		else setCurrentStock('ACME');
-	},[]);
+	}, []);
 
 
 	return (
@@ -70,13 +73,13 @@ export default function App() {
 				<div>
 					<Switch>
 						<Route path="/assets">
-							<AssetsPage tradingData={tradingData} />
+							<AssetsPage appData={appData} />
 						</Route>
 						<Route path="/details">
-							<DetailsPage tradingData={tradingData}/>
+							<DetailsPage appData={appData} />
 						</Route>
 						<Route path="/">
-							<HomePage tradingData={tradingData}/>
+							<HomePage appData={appData} />
 						</Route>
 					</Switch>
 				</div>

@@ -1,28 +1,30 @@
-import { useEffect, useState, useRef, RefObject } from 'react'
-import Highcharts, { Chart, numberFormat } from 'highcharts'
+import { useEffect, useState, useRef, RefObject, ChangeEvent } from 'react'
+import Highcharts, { Chart } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import { IPriceToday, ITradingData } from '../services/Interfaces'
+import { IPriceToday, IAppData } from '../services/Interfaces'
 import { getStockHistoryDaily } from '../repository/GetStockHistoryDaily'
 import { getStockHistoryYearly } from '../repository/GetStockHistoryYearly'
-import { GraphModesEnum } from '../services/Enums'
+import { GraphModesEnum, GraphPeriodEnum } from '../services/Enums'
 
-export const Graph = (props: { tradingData: ITradingData, mode: GraphModesEnum, currentStock: string }) => {
+export const Graph = (props: { appData: IAppData, mode: GraphModesEnum, currentStock: string }) => {
     const highChartsRef = useRef<{ chart: Chart; container: RefObject<HTMLDivElement>; }>(null);
-    const [period, setPeriod] = useState('Daily');
     const [stockHistory, setStockHistory] = useState<IPriceToday>();
-    useEffect(() => {
-        if (period==='Daily')
-            getStockHistoryDaily(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
-        else
-            getStockHistoryYearly(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
+    const [period, setPeriod] = useState(GraphPeriodEnum.DAILY);
 
+    useEffect(() => {
+        if (props.appData.graphPeriod == GraphPeriodEnum.DAILY) {
+            getStockHistoryDaily(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
+        } else {
+            getStockHistoryYearly(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
+        }
+        setPeriod(props.appData.graphPeriod);
     }, [props.currentStock, period])
 
     let options: Highcharts.Options = {};
     options = {
         chart: { type: 'line' },
         title: {
-            text: props?.tradingData?.stocks?.find((s) => s.symbol === props.currentStock)?.name
+            text: props?.appData?.stocks?.find((s) => s.symbol === props.currentStock)?.name
         },
         xAxis: { type: 'datetime' },
         plotOptions: {
@@ -55,20 +57,42 @@ export const Graph = (props: { tradingData: ITradingData, mode: GraphModesEnum, 
         }]
     }
 
-    let periodOption = null;
-    if (props.mode === GraphModesEnum.DETAILS) {
-        periodOption =
+    const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
+        props.appData.setGraphPeriod(e.target.value);
+        setPeriod(Number.parseInt(e.target.value));
+    }
+
+    let periodOptions = <div></div>
+    if (period == GraphPeriodEnum.DAILY) {
+        periodOptions =
             <div>
-                <select onChange={(e) => setPeriod(e.target.value) } >
-                    <option key='Daily' value='Daily'>Daily</option>
-                    <option key='Yearly' value='Yearly'>Yearly</option>
+                <select onChange={(e) => onChangeHandler(e)} >
+                    <option key={GraphPeriodEnum.DAILY} value={GraphPeriodEnum.DAILY} selected>Daily</option>
+                    <option key={GraphPeriodEnum.YEARLY} value={GraphPeriodEnum.YEARLY} >Yearly</option>
                 </select>
+            </div>
+    }
+    else {
+        periodOptions =
+            <div>
+                <select onChange={(e) => onChangeHandler(e)} >
+                    <option key={GraphPeriodEnum.DAILY} value={GraphPeriodEnum.DAILY} >Daily</option>
+                    <option key={GraphPeriodEnum.YEARLY} value={GraphPeriodEnum.YEARLY} selected>Yearly</option>
+                </select>
+            </div>
+    }
+
+    let periodSection = null;
+    if (props.mode === GraphModesEnum.DETAILS) {
+        periodSection =
+            <div>
+                {periodOptions}
             </div>
     }
 
     return props.currentStock ?
         <div>
-            {periodOption}
+            {periodSection}
             <section className="stock-graph" >
                 <div id="stockGraphContainer" className="stock-graph__container">
                     <HighchartsReact ref={highChartsRef}

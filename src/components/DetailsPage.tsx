@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ITradingData } from '../services/Interfaces';
+import { IAppData } from '../services/Interfaces';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -12,7 +12,7 @@ import { Graph } from './Graph'
 import { WatchListItem } from './WatchListItem';
 
 
-export const DetailsPage = (props: { tradingData: ITradingData }) => {
+export const DetailsPage = (props: { appData: IAppData }) => {
     // const appData = useContext(appContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState<ModalModesEnum>(ModalModesEnum.PICK);
@@ -22,19 +22,19 @@ export const DetailsPage = (props: { tradingData: ITradingData }) => {
     });
 
     useEffect(() => {
-        getTransactions(props.tradingData.setTransactions);
+        getTransactions(props.appData.setTransactions);
     }, []);
 
     return (
         <div>
-            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} tradingData={props.tradingData} />
-            <WatchListItem watchItem={{ symbol: props.tradingData.currentStock }} tradingData={props.tradingData} showModal={showModal} isRemoveEnabled={false} />
+            <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} appData={props.appData} />
+            <WatchListItem watchItem={{ symbol: props.appData.currentStock }} appData={props.appData} showModal={showModal} isRemoveEnabled={false} />
             <table>
                 <tr>
-                    <Graph tradingData={props.tradingData} mode={GraphModesEnum.DETAILS} currentStock={props.tradingData.currentStock} />
+                    <Graph appData={props.appData} mode={GraphModesEnum.DETAILS} currentStock={props.appData.currentStock} />
                 </tr>
                 <tr>
-                    <Grid tradingData={props.tradingData} mode={GridModesEnum.DETAILS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode} />
+                    <Grid appData={props.appData} mode={GridModesEnum.DETAILS} setIsModalVisible={setIsModalVisible} setModalMode={setModalMode} />
                 </tr>
             </table>
         </div>
