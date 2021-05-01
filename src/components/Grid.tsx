@@ -7,7 +7,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { getTransactions } from '../repository/GetTransactions';
 import { IAppData } from '../services/Interfaces';
 import { GridModesEnum, ModalModesEnum } from '../services/Enums';
-import { RowDoubleClickedEvent, RowSelectedEvent } from 'ag-grid-community';
+import { RowDoubleClickedEvent } from 'ag-grid-community';
 import { getUserData } from '../repository/GetUserData';
 
 export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModalVisible: Function, setModalMode: Function }) => {
@@ -24,14 +24,15 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
     const priceFormatter = (params: { value: number | bigint }) => {
         return params.value ? formatter.format(params.value) : '';
     };
-    function dateFormatter(params: { data: { date: any; }; }) {
-        var dateAsString = params.data.date;
-        var dateParts = dateAsString.split('/');
-        return params.data ? `${dateParts[0]} - ${dateParts[1]} - ${dateParts[2]}` : '';
+    const onRowDoubleClicked = (e: RowDoubleClickedEvent) => {
+        props.appData.setCurrentStock(e.node.data.stock);
+        props.setModalMode(ModalModesEnum.SELL);
+        props.setIsModalVisible(true);
     }
 
+
     let transactionData = [{}];
-    let columns = null;
+    let renderedGrid = null;
     switch (props.mode) {
         case GridModesEnum.ASSETS:
             // summarize total assets or call userdata including current worth
@@ -45,12 +46,14 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
                 };
             });
 
-            columns = (
-                <div>
-                    <AgGridColumn field="stock"></AgGridColumn>
-                    <AgGridColumn field="amount"></AgGridColumn>
-                    <AgGridColumn field="currentPrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
-                    <AgGridColumn field="currentWorth" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+            renderedGrid = (
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                    <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
+                        <AgGridColumn field="stock"></AgGridColumn>
+                        <AgGridColumn field="amount"></AgGridColumn>
+                        <AgGridColumn field="currentPrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+                        <AgGridColumn field="currentWorth" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+                    </AgGridReact>
                 </div>
             );
             break;
@@ -66,15 +69,18 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
                     , 'cost': transaction.amount * transaction.tickPrice
                 };
             });
-            columns = (
-                <div>
-                    <AgGridColumn field="date" ></AgGridColumn>
-                    <AgGridColumn field="stock"></AgGridColumn>
-                    <AgGridColumn field="amount"></AgGridColumn>
-                    <AgGridColumn field="direction"></AgGridColumn>
-                    <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
-                    <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+            renderedGrid = (
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                    <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
+                        <AgGridColumn field="date" ></AgGridColumn>
+                        <AgGridColumn field="stock"></AgGridColumn>
+                        <AgGridColumn field="amount"></AgGridColumn>
+                        <AgGridColumn field="direction"></AgGridColumn>
+                        <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
+                        <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+                    </AgGridReact>
                 </div>
+
             );
             break;
         case GridModesEnum.TRANSACTIONS:
@@ -89,14 +95,16 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
                     , 'cost': transaction.amount * transaction.tickPrice
                 };
             });
-            columns = (
-                <div>
-                    <AgGridColumn field="date" ></AgGridColumn>
-                    <AgGridColumn field="stock"></AgGridColumn>
-                    <AgGridColumn field="amount"></AgGridColumn>
-                    <AgGridColumn field="direction"></AgGridColumn>
-                    <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
-                    <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
+            renderedGrid = (
+                <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
+                    <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
+                        <AgGridColumn field="date" ></AgGridColumn>
+                        <AgGridColumn field="stock"></AgGridColumn>
+                        <AgGridColumn field="amount"></AgGridColumn>
+                        <AgGridColumn field="direction"></AgGridColumn>
+                        <AgGridColumn field="purchasePrice" type='rightAligned' valueFormatter={priceFormatter} ></AgGridColumn>
+                        <AgGridColumn field="cost" type='rightAligned' valueFormatter={priceFormatter}></AgGridColumn>
+                    </AgGridReact>
                 </div>
             );
 
@@ -105,17 +113,9 @@ export const Grid = (props: { appData: IAppData, mode: GridModesEnum, setIsModal
             break;
     }
 
-    const onRowDoubleClicked = (e: RowDoubleClickedEvent) => {
-        props.appData.setCurrentStock(e.node.data.stock);
-        props.setModalMode(ModalModesEnum.SELL);
-        props.setIsModalVisible(true);
-    }
-
     return (
-        <div className="ag-theme-alpine" style={{ height: 400, width: 1700 }}>
-            <AgGridReact rowData={transactionData} onRowDoubleClicked={onRowDoubleClicked}>
-                {columns}
-            </AgGridReact>
+        <div>
+            {renderedGrid}
         </div>
     );
 };
