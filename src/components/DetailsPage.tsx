@@ -28,7 +28,7 @@ export const DetailsPage = (props: { appData: IAppData }) => {
     return (
         <div>
             <ModalPopup isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} mode={modalMode} appData={props.appData} />
-            <WatchListItem watchItem={{ symbol: props.appData.currentStock }} appData={props.appData} showModal={showModal} isRemoveEnabled={false} />
+            <WatchListItem watchItem={{ symbol: props.appData.currentStock }} appData={props.appData} showModal={showModal} isRemoveEnabled={false} graphMode={GraphModesEnum.DETAILS   }/>
             <table>
                 <tr>
                     <Graph appData={props.appData} mode={GraphModesEnum.DETAILS} currentStock={props.appData.currentStock} />
