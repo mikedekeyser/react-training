@@ -32,7 +32,7 @@ export const Graph = (props: { appData: IAppData, mode: GraphModesEnum, currentS
                 dataLabels: {
                     enabled: false
                 },
-                enableMouseTracking: false
+                enableMouseTracking: true
             }
         },
 
