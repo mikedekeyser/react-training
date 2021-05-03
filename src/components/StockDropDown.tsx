@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { IStock } from '../services/Interfaces'
-import {getStocks} from '../repository/GetStocks'
+import { getStocks } from '../repository/GetStocks'
 
-export const StockDropDown = ((props: {setSelected: Function;})=>{
+export const StockDropDown = ((props: { setSelected: Function; }) => {
     const [stocks, setStocks] = useState<IStock[]>();
-    useEffect(()=>{
+    useEffect(() => {
         getStocks(setStocks);
-    },[])
+    }, [])
 
     return (
         <div>

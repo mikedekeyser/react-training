@@ -1,11 +1,10 @@
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { ModalModesEnum } from '../services/Enums'
 import { StockDropDown } from './StockDropDown';
-import {addWatchItem} from '../repository/AddWatchItem'
+import { addWatchItem } from '../repository/AddWatchItem'
 import { IAPIResult, IAppData, IUserData, IWatchItem } from '../services/Interfaces';
 import { addBuyTransaction } from '../repository/AddBuyTransaction'
 import { addSellTransaction } from '../repository/AddSellTransaction'
-import { getUserData } from '../repository/GetUserData';
 
 export const ModalPopup = (props: {
     isModalVisible: boolean;
@@ -23,18 +22,18 @@ export const ModalPopup = (props: {
         data: ""
     });
 
-    const onAddTransaction = (data:IUserData)=>{
+    const onAddTransaction = (data: IUserData) => {
         if (data) props.appData.setUserData(data);
     }
 
-    const updateStatus = (data:IAPIResult)=>{
+    const updateStatus = (data: IAPIResult) => {
         setAPIResult(data);
-        if (data.success && data.data.indexOf('added')>0) props.appData.setWatchList([...props.appData.watchList, {symbol:selected}])
+        if (data.success && data.data.indexOf('added') > 0) props.appData.setWatchList([...props.appData.watchList, { symbol: selected }])
     }
 
     const addStockToWatchList = (symbol: string) => {
         setAPIResult({ success: false, data: "processing ..." });
-        addWatchItem( symbol , updateStatus);
+        addWatchItem(symbol, updateStatus);
     }
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -43,9 +42,9 @@ export const ModalPopup = (props: {
             modalContent = <div>
                 <h2 className="modal__h2">Buy stock</h2>
                 <div>
-                    <div>Amount of {props.appData.currentStock} stocks to buy:</div> 
+                    <div>Amount of {props.appData.currentStock} stocks to buy:</div>
                     <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                    <button className="modal__btn" onClick={() => addBuyTransaction(props.appData.currentStock , Number.parseInt(inputRef.current?.value?inputRef.current.value:''), onAddTransaction)}>Buy</button>
+                    <button className="modal__btn" onClick={() => addBuyTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : ''), onAddTransaction)}>Buy</button>
                 </div>
             </div>
             break;
@@ -53,22 +52,22 @@ export const ModalPopup = (props: {
             modalContent = <div>
                 <h2 className="modal__h2">Sell stock</h2>
                 <div>
-                    <div>Amount of {props.appData.currentStock} stocks to sell:</div> 
+                    <div>Amount of {props.appData.currentStock} stocks to sell:</div>
                     <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                    <button className="modal__btn" onClick={() => addSellTransaction(props.appData.currentStock , Number.parseInt(inputRef.current?.value?inputRef.current.value:''), onAddTransaction)}>Sell</button>
+                    <button className="modal__btn" onClick={() => addSellTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : ''), onAddTransaction)}>Sell</button>
                 </div>
             </div>
             break;
         case ModalModesEnum.PICK:
-            modalContent =         
-            <div>
-                <h2 className="modal__h2">Select a new stock to follow</h2>
-                <StockDropDown setSelected={setSelected}/>
-                <button className="modal__btn" onClick={() => addStockToWatchList(selected)}>Add</button>
+            modalContent =
                 <div>
-                    {apiResult?.data}
+                    <h2 className="modal__h2">Select a new stock to follow</h2>
+                    <StockDropDown setSelected={setSelected} />
+                    <button className="modal__btn" onClick={() => addStockToWatchList(selected)}>Add</button>
+                    <div>
+                        {apiResult?.data}
+                    </div>
                 </div>
-            </div>
             break;
     }
 

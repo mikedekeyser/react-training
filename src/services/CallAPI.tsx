@@ -1,6 +1,6 @@
-import {mockAPIServerURL} from '../App'
+import { mockAPIServerURL } from '../App'
 
-export function callAPI(url: string, setter:Function, requestOptions:RequestInit|null) {
+export function callAPI(url: string, setter: Function, requestOptions: RequestInit | null) {
     const defaultRequestOptions = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
@@ -17,13 +17,13 @@ export function callAPI(url: string, setter:Function, requestOptions:RequestInit
     } as RequestInit
 
     fetch(`${mockAPIServerURL}${url}`, defaultRequestOptions)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        } return response.json();            
-    })
-    .then(data => {
-        console.log(data);
-        setter(data);
-    });        
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            } return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            setter(data);
+        });
 }

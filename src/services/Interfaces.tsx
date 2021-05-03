@@ -56,7 +56,7 @@ export interface IAsset {
 }
 
 export interface IUserData {
-    "userId": string;    
+    "userId": string;
     "liquidity": number;
     "allocations": {
         "symbol": string;
@@ -65,20 +65,20 @@ export interface IUserData {
     "watchList": IWatchItem[];
 }
 
-export interface IDatePrice{
+export interface IDatePrice {
     "date": string;
     "price": number;
 }
 
-export interface IPriceToday{
+export interface IPriceToday {
     "detailed": IDatePrice[];
     "aggregated": IDatePrice[];
 }
 
 export interface IModalProps {
-	setModalMode: Function;
-	setIsModalVisible: Function;
-	modalClickHandler: Function;
+    setModalMode: Function;
+    setIsModalVisible: Function;
+    modalClickHandler: Function;
 }
 
 export interface IAppData {
