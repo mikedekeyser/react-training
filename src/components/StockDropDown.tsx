@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { IStock } from '../services/Interfaces'
+import { IAppData, IStock } from '../services/Interfaces'
 import { getStocks } from '../repository/GetStocks'
 
-export const StockDropDown = ((props: { setSelected: Function; }) => {
+export const StockDropDown = ((props: {appData:IAppData;  setSelected: Function; }) => {
     const [stocks, setStocks] = useState<IStock[]>();
     useEffect(() => {
         getStocks(setStocks);
@@ -12,11 +12,17 @@ export const StockDropDown = ((props: { setSelected: Function; }) => {
         <div>
             <select className="modal__dropdown" onChange={(e) => { props.setSelected(e.target.value) }} >
                 <option >Select a stock</option>
-                {stocks ? stocks.map((stock) =>
-                    <option key={stock.symbol} value={stock.symbol}>
+                {stocks 
+                ? stocks.map((stock) =>
+                    (stock.symbol==props.appData.currentStock)
+                    ?<option key={stock.symbol} value={stock.symbol} selected>
                         {stock.name}
-                    </option>)
-                    : 'loading ...'}
+                    </option>
+                    :<option key={stock.symbol} value={stock.symbol}>
+                        {stock.name}
+                    </option>
+                )
+                : 'loading ...'}
             </select>
         </div>
     )

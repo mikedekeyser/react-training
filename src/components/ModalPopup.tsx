@@ -62,7 +62,7 @@ export const ModalPopup = (props: {
             modalContent =
                 <div>
                     <h2 className="modal__h2">Select a new stock to follow</h2>
-                    <StockDropDown setSelected={setSelected} />
+                    <StockDropDown appData={props.appData} setSelected={setSelected} />
                     <button className="modal__btn" onClick={() => addStockToWatchList(selected)}>Add</button>
                     <div>
                         {apiResult?.data}
