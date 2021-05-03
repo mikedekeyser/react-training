@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
+import { isPropertySignature } from "typescript";
 import { removeWatchItem } from "../repository/RemoveWatchItem";
-import { ModalModesEnum } from "../services/Enums";
+import { GraphModesEnum, ModalModesEnum } from "../services/Enums";
 import { ISymbolPrice, IAppData, IWatchItem } from "../services/Interfaces";
 import stockUpdateService from '../services/LiveDataService'
+import { StockDropDown } from "./StockDropDown";
 
-export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData, showModal: Function, isRemoveEnabled: boolean }) => {
+export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData, showModal: Function, isRemoveEnabled: boolean, graphMode:GraphModesEnum }) => {
     const [price, setPrice] = useState(0);
     const updatePrice = (newStockPrice: ISymbolPrice) => {
         setPrice(newStockPrice.price);
@@ -34,11 +36,18 @@ export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData,
         </div>
     ) : <div></div>;
 
+    let stockGridCell;
+    if (props.graphMode==GraphModesEnum.WATCH) {
+        stockGridCell=<div className="stock-list__grid-cell">{props.watchItem.symbol}</div>
+    } else {
+        stockGridCell=<div className="stock-list__grid-cell"><StockDropDown setSelected={props.appData.setCurrentStock} /></div>
+    }
+
     return (
         <div className="stock-list__grid-row" onClick={() => onClickHandler(props.watchItem.symbol)}>
             {removeButton}
-            <div className="stock-list__grid-cell">{props.watchItem.symbol}</div>
-            <div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>
+            {stockGridCell}
+            {<div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>}
             <div className="stock-list__grid-cell"></div>
             <div className="stock-list__grid-cell">
                 <a><span className="btn-transaction btn-transaction--buy" onClick={() => props.showModal(ModalModesEnum.BUY)} >buy</span></a>

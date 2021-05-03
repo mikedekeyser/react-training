@@ -1,4 +1,4 @@
-import { ModalModesEnum } from '../services/Enums';
+import { GraphModesEnum, ModalModesEnum } from '../services/Enums';
 import { IAppData } from '../services/Interfaces'
 import { WatchListItem } from './WatchListItem'
 
@@ -15,7 +15,7 @@ export const WatchList = ((props: { appData: IAppData, setWatchList: Function, s
                     onClick={() => showModal(ModalModesEnum.PICK)}>+</span></a></h2>
                 <div className="stock-list__grid" >
                     {props?.appData?.watchList?.map((watchItem) =>
-                        <WatchListItem watchItem={watchItem} appData={props.appData} showModal={showModal} isRemoveEnabled={true} />
+                        <WatchListItem watchItem={watchItem} appData={props.appData} showModal={showModal} isRemoveEnabled={true} graphMode={GraphModesEnum.WATCH} />
                     )}
                 </div>
             </section>
