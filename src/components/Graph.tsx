@@ -62,31 +62,14 @@ export const Graph = (props: { appData: IAppData, mode: GraphModesEnum, currentS
         setPeriod(Number.parseInt(e.target.value));
     }
 
-    let periodOptions = <div></div>
-    if (period == GraphPeriodEnum.DAILY) {
-        periodOptions =
-            <div>
-                <select onChange={(e) => onChangeHandler(e)} >
-                    <option key={GraphPeriodEnum.DAILY} value={GraphPeriodEnum.DAILY} selected>Daily</option>
-                    <option key={GraphPeriodEnum.YEARLY} value={GraphPeriodEnum.YEARLY} >Yearly</option>
-                </select>
-            </div>
-    }
-    else {
-        periodOptions =
-            <div>
-                <select onChange={(e) => onChangeHandler(e)} >
-                    <option key={GraphPeriodEnum.DAILY} value={GraphPeriodEnum.DAILY} >Daily</option>
-                    <option key={GraphPeriodEnum.YEARLY} value={GraphPeriodEnum.YEARLY} selected>Yearly</option>
-                </select>
-            </div>
-    }
-
     let periodSection = null;
     if (props.mode === GraphModesEnum.DETAILS) {
         periodSection =
             <div>
-                {periodOptions}
+                <select value={period} onChange={(e) => onChangeHandler(e)} >
+                    <option key={GraphPeriodEnum.DAILY} value={GraphPeriodEnum.DAILY} >Daily</option>
+                    <option key={GraphPeriodEnum.YEARLY} value={GraphPeriodEnum.YEARLY} >Yearly</option>
+                </select>
             </div>
     }
 
