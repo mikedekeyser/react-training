@@ -24,6 +24,7 @@ export const ModalPopup = (props: {
 
     const onAddTransaction = (data: IUserData) => {
         if (data) props.appData.setUserData(data);
+        //props.setIsModalVisible(false);
     }
 
     const updateStatus = (data: IAPIResult) => {
@@ -44,7 +45,12 @@ export const ModalPopup = (props: {
                 <div>
                     <div>Amount of {props.appData.currentStock} stocks to buy:</div>
                     <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                    <button className="modal__btn" onClick={() => addBuyTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : ''), onAddTransaction)}>Buy</button>
+                    <button className="modal__btn" onClick={() => {
+                        if (inputRef.current && inputRef.current.value && Number(inputRef.current.value)>0) {
+                            addBuyTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : '0'), onAddTransaction);                            
+                        }
+                        props.setIsModalVisible(false);
+                    }}>Buy</button>
                 </div>
             </div>
             break;
@@ -54,7 +60,16 @@ export const ModalPopup = (props: {
                 <div>
                     <div>Amount of {props.appData.currentStock} stocks to sell:</div>
                     <input ref={inputRef} className="modal__number-box" type="number" name="quantity" placeholder="enter amount" />
-                    <button className="modal__btn" onClick={() => addSellTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : ''), onAddTransaction)}>Sell</button>
+                    <button className="modal__btn" onClick={() => {
+                        const holdings = props?.appData?.userData?.allocations.find((x) => x.symbol === props.appData.currentStock)?.amount;
+                        if (inputRef.current && inputRef.current.value && Number(inputRef.current.value)>0 && holdings) {
+                            if (Number(inputRef.current.value)<=holdings)
+                                addSellTransaction(props.appData.currentStock, Number.parseInt(inputRef.current?.value ? inputRef.current.value : '0'), onAddTransaction);
+                            else 
+                                alert(`Can not sell more than ${holdings} stocks.`);
+                        }
+                        props.setIsModalVisible(false);
+                    }}>Sell</button>
                 </div>
             </div>
             break;

@@ -50,10 +50,18 @@ export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData,
             {<div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>}
             <div className="stock-list__grid-cell"></div>
             <div className="stock-list__grid-cell">
-                <a><span className="btn-transaction btn-transaction--buy" onClick={() => props.showModal(ModalModesEnum.BUY)} >buy</span></a>
+                <a><span className="btn-transaction btn-transaction--buy" onClick={() => {
+                        props.appData.setCurrentStock(props.watchItem.symbol);
+                        props.showModal(ModalModesEnum.BUY);
+                    } 
+                } >buy</span></a>
             </div>
             <div className="stock-list__grid-cell">
-                <a><span className="btn-transaction btn-transaction--sell" onClick={() => props.showModal(ModalModesEnum.SELL)}>sell</span></a>
+                <a><span className="btn-transaction btn-transaction--sell" onClick={() => {
+                        props.appData.setCurrentStock(props.watchItem.symbol);
+                        props.showModal(ModalModesEnum.SELL);
+                    }
+                }>sell</span></a>
             </div>
             <div className="stock-list__grid-cell">{holdings}</div>
         </div>
