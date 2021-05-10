@@ -30,23 +30,19 @@ export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData,
     const priceFormatter = (value: number | bigint) => {
         return value ? formatter.format(value) : '';
     };
-    const removeButton = props.isRemoveEnabled ? (
-        <div className="stock-list__grid-cell">
-            <a><span className="stock-list__btn stock-list__btn--remove" onClick={() => removeWatchItem(props.watchItem.symbol, onItemRemovedFromWatchListEvent)} >&ndash;</span></a>
-        </div>
-    ) : <div></div>;
-
-    let stockGridCell;
-    if (props.graphMode==GraphModesEnum.WATCH) {
-        stockGridCell=<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}>{props.watchItem.symbol}</div>
-    } else {
-        stockGridCell=<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}><StockDropDown appData={props.appData} selected={props.appData.currentStock} setSelected={props.appData.setCurrentStock} /></div>
-    }
 
     return (
         <div className="stock-list__grid-row">
-            {removeButton}
-            {stockGridCell}
+            {props.isRemoveEnabled
+                ?<div className="stock-list__grid-cell">
+                    <a><span className="stock-list__btn stock-list__btn--remove" onClick={() => removeWatchItem(props.watchItem.symbol, onItemRemovedFromWatchListEvent)} >&ndash;</span></a>
+                </div>
+                :null
+            }
+            {props.graphMode==GraphModesEnum.WATCH
+                ?<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}>{props.watchItem.symbol}</div>
+                :<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}><StockDropDown appData={props.appData} selected={props.appData.currentStock} setSelected={props.appData.setCurrentStock} /></div>
+            }
             {<div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>}
             <div className="stock-list__grid-cell"></div>
             <div className="stock-list__grid-cell">
