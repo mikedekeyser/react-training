@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { IStock, IAppData, ITransaction, IUserData, IWatchItem } from './services/Interfaces';
 import { getUserData } from './repository/GetUserData'
 import { getWatchList } from './repository/GetWatchList';
-import { PropertyKeys } from 'ag-grid-community';
 import { getStocks } from './repository/GetStocks';
 import { GraphPeriodEnum } from './services/Enums';
 

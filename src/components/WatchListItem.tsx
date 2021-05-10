@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { isPropertySignature } from "typescript";
 import { removeWatchItem } from "../repository/RemoveWatchItem";
 import { GraphModesEnum, ModalModesEnum } from "../services/Enums";
 import { ISymbolPrice, IAppData, IWatchItem } from "../services/Interfaces";

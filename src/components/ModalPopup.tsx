@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { ModalModesEnum } from '../services/Enums'
 import { StockDropDown } from './StockDropDown';
 import { addWatchItem } from '../repository/AddWatchItem'
-import { IAPIResult, IAppData, IUserData, IWatchItem } from '../services/Interfaces';
+import { IAPIResult, IAppData, IUserData } from '../services/Interfaces';
 import { addBuyTransaction } from '../repository/AddBuyTransaction'
 import { addSellTransaction } from '../repository/AddSellTransaction'
 

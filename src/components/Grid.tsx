@@ -7,7 +7,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { getTransactions } from '../repository/GetTransactions';
 import { IAppData } from '../services/Interfaces';
 import { GridModesEnum, ModalModesEnum } from '../services/Enums';
-import { CellClickedEvent, RowDoubleClickedEvent } from 'ag-grid-community';
+import { CellClickedEvent } from 'ag-grid-community';
 import { getUserData } from '../repository/GetUserData';
 import { ButtonCell } from './ButtonCell';
 

@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
-import { IAppData, IStock } from '../services/Interfaces'
+import { useEffect } from 'react'
+import { IAppData } from '../services/Interfaces'
 import { getStocks } from '../repository/GetStocks'
-import { setSyntheticLeadingComments } from 'typescript';
 
 export const StockDropDown = ((props: {appData:IAppData; selected:string; setSelected: Function; }) => {
     useEffect(() => {
