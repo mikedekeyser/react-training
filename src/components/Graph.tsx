@@ -2,8 +2,7 @@ import { useEffect, useState, useRef, RefObject, ChangeEvent } from 'react'
 import Highcharts, { Chart } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import { IPriceToday, IAppData } from '../services/Interfaces'
-import { getStockHistoryDaily } from '../repository/GetStockHistoryDaily'
-import { getStockHistoryYearly } from '../repository/GetStockHistoryYearly'
+import { getStockHistory } from '../repository/GetStockHistory'
 import { GraphModesEnum, GraphPeriodEnum } from '../services/Enums'
 
 export const Graph = (props: { appData: IAppData, mode: GraphModesEnum, currentStock: string }) => {
@@ -12,11 +11,7 @@ export const Graph = (props: { appData: IAppData, mode: GraphModesEnum, currentS
     const [period, setPeriod] = useState(GraphPeriodEnum.DAILY);
 
     useEffect(() => {
-        if (props.appData.graphPeriod == GraphPeriodEnum.DAILY) {
-            getStockHistoryDaily(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
-        } else {
-            getStockHistoryYearly(props.currentStock ? props.currentStock : 'ACME', setStockHistory);
-        }
+        getStockHistory(period, props.currentStock ? props.currentStock : 'ACME', setStockHistory);
         setPeriod(props.appData.graphPeriod);
     }, [props.currentStock, period])
 
