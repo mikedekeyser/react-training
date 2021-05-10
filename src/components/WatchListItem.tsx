@@ -38,13 +38,13 @@ export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData,
 
     let stockGridCell;
     if (props.graphMode==GraphModesEnum.WATCH) {
-        stockGridCell=<div className="stock-list__grid-cell">{props.watchItem.symbol}</div>
+        stockGridCell=<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}>{props.watchItem.symbol}</div>
     } else {
-        stockGridCell=<div className="stock-list__grid-cell"><StockDropDown appData={props.appData} selected={props.appData.currentStock} setSelected={props.appData.setCurrentStock} /></div>
+        stockGridCell=<div className="stock-list__grid-cell"  onClick={() => onClickHandler(props.watchItem.symbol)}><StockDropDown appData={props.appData} selected={props.appData.currentStock} setSelected={props.appData.setCurrentStock} /></div>
     }
 
     return (
-        <div className="stock-list__grid-row" onClick={() => onClickHandler(props.watchItem.symbol)}>
+        <div className="stock-list__grid-row">
             {removeButton}
             {stockGridCell}
             {<div className="stock-list__grid-cell currency">{priceFormatter(price)}</div>}
