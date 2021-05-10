@@ -40,7 +40,7 @@ export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData,
     if (props.graphMode==GraphModesEnum.WATCH) {
         stockGridCell=<div className="stock-list__grid-cell">{props.watchItem.symbol}</div>
     } else {
-        stockGridCell=<div className="stock-list__grid-cell"><StockDropDown appData={props.appData} setSelected={props.appData.setCurrentStock} /></div>
+        stockGridCell=<div className="stock-list__grid-cell"><StockDropDown appData={props.appData} selected={props.appData.currentStock} setSelected={props.appData.setCurrentStock} /></div>
     }
 
     return (

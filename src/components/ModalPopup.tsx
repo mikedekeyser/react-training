@@ -13,7 +13,7 @@ export const ModalPopup = (props: {
     // children: ReactNode;
     appData: IAppData;
 }) => {
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState('ACME');
     const classes: string = `modal ${props.isModalVisible ? 'visible' : ''}`;
 
     let modalContent = null;
@@ -62,7 +62,7 @@ export const ModalPopup = (props: {
             modalContent =
                 <div>
                     <h2 className="modal__h2">Select a new stock to follow</h2>
-                    <StockDropDown appData={props.appData} setSelected={setSelected} />
+                    <StockDropDown appData={props.appData} selected={selected} setSelected={setSelected} />
                     <button className="modal__btn" onClick={() => addStockToWatchList(selected)}>Add</button>
                     <div>
                         {apiResult?.data}
