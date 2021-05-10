@@ -1,5 +1,5 @@
 import nes from "@hapi/nes/lib/client";
-import { IStockPrice, ISymbolPrice } from "./Interfaces";
+import { ISymbolPrice } from "./Interfaces";
 
 class StockUpdateService {
   private nesClient!: nes.Client;
