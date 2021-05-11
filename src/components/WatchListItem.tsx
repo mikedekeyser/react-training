@@ -5,7 +5,7 @@ import { ISymbolPrice, IAppData, IWatchItem } from "../services/Interfaces";
 import stockUpdateService from '../services/LiveDataService'
 import { StockDropDown } from "./StockDropDown";
 
-export const WatchListItem = (props: { watchItem: IWatchItem, appData: IAppData, showModal: Function, isRemoveEnabled: boolean, graphMode:GraphModesEnum }) => {
+export const WatchListItem = (props: {key:string; watchItem: IWatchItem, appData: IAppData, showModal: Function, isRemoveEnabled: boolean, graphMode:GraphModesEnum }) => {
     const [price, setPrice] = useState(0);
     const updatePrice = (newStockPrice: ISymbolPrice) => {
         setPrice(newStockPrice.price);
