@@ -86,7 +86,6 @@ export const ModalPopup = (props: {
             break;
     }
 
-
     return (
         <div className={classes} >
             <div className="modal__overlay"></div>
